@@ -2,80 +2,99 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Confirmación de Asistencia - Jacqueline</title>
+  <title>Confirmación de Asistencia</title>
   <style>
     body {
-      font-family: sans-serif;
-      background: #fff8f0;
-      padding: 20px;
-      max-width: 600px;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 2rem;
+    }
+    form {
+      background: #fff;
+      padding: 2rem;
+      max-width: 500px;
       margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    label, input, button {
+    label {
       display: block;
-      margin: 10px 0;
+      margin-top: 1rem;
+      font-weight: bold;
     }
-    input[type="checkbox"] {
-      display: inline;
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      margin-top: 0.3rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      background-color: #25D366;
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #128C7E;
     }
   </style>
 </head>
 <body>
-  <h2>Mis 15 Años - Jacqueline</h2>
 
-  <label>Nombre completo:</label>
-  <input type="text" id="nombre" required>
+  <form onsubmit="enviarWhatsApp(); return false;">
+    <h2>Confirmación de Asistencia</h2>
 
-  <label>¿Confirmás asistencia?</label>
-  <select id="asistencia">
-    <option value="Sí">Sí</option>
-    <option value="No">No</option>
-  </select>
+    <label for="nombre">Nombre completo:</label>
+    <input type="text" id="nombre" required>
 
-  <label>Restricciones alimentarias (puede marcar varias):</label>
-  <label><input type="checkbox" name="alimentacion" value="Ninguna"> Ninguna</label>
-  <label><input type="checkbox" name="alimentacion" value="SIN TACC"> SIN TACC</label>
-  <label><input type="checkbox" name="alimentacion" value="Vegano"> Vegano</label>
-  <label><input type="checkbox" name="alimentacion" value="Hipertensión"> Hipertensión</label>
-  <label><input type="checkbox" name="alimentacion" value="Diabético"> Diabético</label>
+    <label for="asistencia">¿Confirmás tu asistencia?</label>
+    <select id="asistencia" required>
+      <option value="">Seleccionar</option>
+      <option value="Sí">Sí</option>
+      <option value="No">No</option>
+    </select>
 
-  <button onclick="enviar()">Confirmar vía WhatsApp</button>
+    <label>Restricción alimentaria (puede marcar varias):</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="alimentacion" value="Ninguna"> Ninguna</label>
+      <label><input type="checkbox" name="alimentacion" value="SIN TACC"> SIN TACC</label>
+      <label><input type="checkbox" name="alimentacion" value="Vegano"> Vegano</label>
+      <label><input type="checkbox" name="alimentacion" value="Hipertensión"> Hipertensión</label>
+      <label><input type="checkbox" name="alimentacion" value="Diabético"> Diabético</label>
+    </div>
+
+    <button type="submit">Enviar por WhatsApp</button>
+  </form>
 
   <script>
-    function enviar() {
+    function enviarWhatsApp() {
       const nombre = document.getElementById("nombre").value.trim();
       const asistencia = document.getElementById("asistencia").value;
 
       const restricciones = Array.from(document.querySelectorAll('input[name="alimentacion"]:checked'))
-        .map(el => el.value).join(", ") || "No especifica";
+                                .map(el => el.value)
+                                .join(", ") || "No especifica";
 
-      // VALIDACIÓN
-      if (!nombre) {
-        alert("Por favor, completá tu nombre.");
-        return;
-      }
+      const mensaje = `Hola, soy ${nombre}. Confirmo asistencia: ${asistencia}. Restricciones alimentarias: ${restricciones}`;
+      const telefono = "5491123456789"; // 🔧 Cambiá este número por el tuyo
 
-      const mensaje = `Hola, soy ${nombre}. Confirmo asistencia: ${asistencia}. Restricciones: ${restricciones}. Evento: Mis 15 Años - Jacqueline`;
-
-      // GUARDAR EN GOOGLE SHEET
-      const formData = new FormData();
-      formData.append("nombre", nombre);
-      formData.append("asistencia", asistencia);
-      formData.append("restricciones", restricciones);
-
-      fetch("https://script.google.com/macros/s/AKfycbyYcZrUOH_gs9tSvr7aZakrSKq9yPLjp1zIimHSeZ70865HvvtuMxYAfKsN3x-hn41Dtw/exec", {
-        method: "POST",
-        body: formData
-      }).then(res => {
-        if (res.ok) {
-          const wa = `https://wa.me/541124572552?text=${encodeURIComponent(mensaje)}`;
-          window.open(wa, "_blank");
-        } else {
-          alert("Error al enviar los datos. Intentalo de nuevo.");
-        }
-      });
+      const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
     }
   </script>
+
 </body>
 </html>
+
 

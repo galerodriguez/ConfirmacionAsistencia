@@ -128,16 +128,20 @@
       const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
 
       // Enviar a Google Sheets
-      const formData = new FormData();
-      formData.append("nombre", nombre);
-      formData.append("asistencia", asistencia);
-      formData.append("restricciones", restricciones);
-      formData.append("id", idUnico);
+      const data = {
+        nombre: nombre,
+        asistencia: asistencia,
+        restricciones: restricciones,
+        id: idUnico
+      };
 
       try {
         await fetch("https://script.google.com/macros/s/AKfycbzjvj9vxdP6uBK0uMYnCIRMtW65pk9D1GBG5iRo-iFsMlIgx5nUGLcO6k95kX0w2kmtxA/exec", {
           method: "POST",
-          body: formData
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
         });
 
         // Mostrar mensaje de agradecimiento

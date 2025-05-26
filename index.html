@@ -1,149 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Confirmación de Asistencia - Mis 15 Años</title>
+  <meta charset="UTF-8">
+  <title>Confirmación de Asistencia - Jacqueline</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat&display=swap');
-
     body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #f0f0f0, #c0c0c0);
+      padding: 2rem;
       margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(135deg, #c0c0c0, #e6d9a9, #b4a577, #d4af37);
-      background-size: 400% 400%;
-      animation: gradientAnim 15s ease infinite;
-      color: #3e3e3e;
-      padding: 2rem 1rem;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
-
-    @keyframes gradientAnim {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
     form {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 2rem 2.5rem;
+      background: white;
+      padding: 2rem;
+      max-width: 500px;
+      margin: auto;
       border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      max-width: 450px;
-      width: 100%;
-      text-align: center;
-      position: relative;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
-
     h2 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 2.8rem;
-      color: #bfa640;
-      margin-bottom: 1.5rem;
-      text-shadow: 1px 1px 2px #8b7e34;
+      color: #b4975a;
+      text-align: center;
     }
-
     label {
       display: block;
-      text-align: left;
-      font-weight: 600;
-      margin: 1rem 0 0.3rem 0;
-      font-size: 1rem;
-      color: #5b4a0a;
+      margin-top: 1rem;
+      font-weight: bold;
     }
-
     input[type="text"],
     select {
       width: 100%;
-      padding: 0.6rem 0.8rem;
-      font-size: 1rem;
-      border: 2px solid #bfa640;
-      border-radius: 8px;
-      outline-offset: 2px;
-      outline-color: #d4af37;
-      transition: border-color 0.3s ease;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-    input[type="text"]:focus,
-    select:focus {
-      border-color: #e6d9a9;
-      outline-color: #e6d9a9;
-    }
-
     .checkbox-group label {
-      font-weight: 500;
-      margin: 0.2rem 0;
-      font-size: 0.95rem;
-      color: #6f5e0e;
+      font-weight: normal;
+      margin-top: 0.3rem;
       display: block;
-      cursor: pointer;
-      user-select: none;
     }
-    .checkbox-group input[type="checkbox"] {
-      margin-right: 8px;
-      cursor: pointer;
-      transform: scale(1.15);
-      vertical-align: middle;
-    }
-
     button {
-      margin-top: 2rem;
-      background-color: #bfa640;
-      border: none;
+      margin-top: 1.5rem;
+      background-color: #25D366;
       color: white;
-      padding: 0.9rem 0;
+      border: none;
+      padding: 0.8rem;
       width: 100%;
-      font-size: 1.1rem;
-      font-weight: 700;
-      border-radius: 12px;
+      font-size: 1rem;
+      border-radius: 5px;
       cursor: pointer;
-      box-shadow: 0 6px 12px rgba(191, 166, 64, 0.6);
-      transition: background-color 0.3s ease;
     }
     button:hover {
-      background-color: #d4af37;
-      box-shadow: 0 8px 16px rgba(212, 175, 55, 0.8);
+      background-color: #128C7E;
     }
-
     #mensajeGracias {
-      margin-top: 1.3rem;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #4b4b00;
+      text-align: center;
+      margin-top: 1rem;
+      color: #444;
+      font-weight: bold;
     }
-
     #qrCode {
+      display: none;
+      text-align: center;
       margin-top: 1rem;
     }
-    #qrCode img {
-      max-width: 160px;
-      margin-top: 0.4rem;
-      border: 3px solid #bfa640;
-      border-radius: 12px;
-      box-shadow: 0 3px 8px rgba(191, 166, 64, 0.5);
+    #qrImage {
+      max-width: 200px;
     }
-
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       form {
-        padding: 1.5rem 1.5rem;
-      }
-      h2 {
-        font-size: 2.2rem;
-      }
-      button {
-        font-size: 1rem;
+        padding: 1rem;
       }
     }
   </style>
 </head>
 <body>
+
   <form onsubmit="enviarFormulario(); return false;">
     <h2>Confirmación de Asistencia</h2>
 
     <label for="nombre">Nombre completo:</label>
-    <input type="text" id="nombre" required autocomplete="name" />
+    <input type="text" id="nombre" required>
 
     <label for="asistencia">¿Confirmás tu asistencia?</label>
     <select id="asistencia" required>
@@ -154,19 +92,19 @@
 
     <label>Restricción alimentaria (puede marcar varias):</label>
     <div class="checkbox-group">
-      <label><input type="checkbox" name="alimentacion" value="Ninguna" /> Ninguna</label>
-      <label><input type="checkbox" name="alimentacion" value="SIN TACC" /> SIN TACC</label>
-      <label><input type="checkbox" name="alimentacion" value="Vegano" /> Vegano</label>
-      <label><input type="checkbox" name="alimentacion" value="Hipertensión" /> Hipertensión</label>
-      <label><input type="checkbox" name="alimentacion" value="Diabético" /> Diabético</label>
+      <label><input type="checkbox" name="alimentacion" value="Ninguna"> Ninguna</label>
+      <label><input type="checkbox" name="alimentacion" value="SIN TACC"> SIN TACC</label>
+      <label><input type="checkbox" name="alimentacion" value="Vegano"> Vegano</label>
+      <label><input type="checkbox" name="alimentacion" value="Hipertensión"> Hipertensión</label>
+      <label><input type="checkbox" name="alimentacion" value="Diabético"> Diabético</label>
     </div>
 
     <button type="submit">Enviar confirmación</button>
 
     <div id="mensajeGracias"></div>
-    <div id="qrCode" style="display:none;">
+    <div id="qrCode">
       <p>Escaneá este código para enviar el mensaje desde otro dispositivo:</p>
-      <img id="qrImage" alt="QR de WhatsApp" />
+      <img id="qrImage" src="" alt="QR de WhatsApp">
     </div>
   </form>
 
@@ -178,18 +116,17 @@
     }
 
     async function enviarFormulario() {
-      const nombre = document.getElementById('nombre').value.trim();
-      const asistencia = document.getElementById('asistencia').value;
+      const nombre = document.getElementById("nombre").value.trim();
+      const asistencia = document.getElementById("asistencia").value;
       const restricciones = Array.from(document.querySelectorAll('input[name="alimentacion"]:checked'))
                                 .map(el => el.value)
-                                .join(', ') || 'No especifica';
+                                .join(", ") || "No especifica";
       const idUnico = generarID(nombre);
 
       const mensaje = `Hola, soy ${nombre}. Confirmo asistencia: ${asistencia}. Restricciones alimentarias: ${restricciones}. ID de invitación: ${idUnico}. Evento: Mis 15 Años - Jacqueline`;
-      const telefono = '541124572552';
-      const urlWhatsApp = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+      const telefono = "541124572552";
+      const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
 
-      // Datos para enviar al Google Apps Script
       const data = {
         nombre: nombre,
         asistencia: asistencia,
@@ -198,37 +135,31 @@
       };
 
       try {
-        // Enviar datos al Google Apps Script
-        const response = await fetch('https://script.google.com/macros/s/AKfycbyL6c5DwqKB81dlBKzkb0IzgUK04ifgn_KO6ILhnmDThWArB_GXixkBCJBIoTroj35Z7w/exec', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const respuesta = await fetch("https://script.google.com/macros/s/AKfycbyL6c5DwqKB81dlBKzkb0IzgUK04ifgn_KO6ILhnmDThWArB_GXixkBCJBIoTroj35Z7w/exec", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify(data)
         });
 
-        const json = await response.json();
-        if(json.result !== 'success') {
-          alert('Error al guardar la confirmación. Intentá nuevamente.');
-          return;
+        const resultado = await respuesta.json();
+
+        if (resultado.resultado !== "ok") {
+          throw new Error("Error en la respuesta del servidor");
         }
 
-        // Mostrar mensaje de agradecimiento
-        const mensajeGracias = document.getElementById('mensajeGracias');
-        mensajeGracias.innerHTML = `¡Gracias por confirmar, <strong>${nombre}</strong>!<br>Tu código de invitación es: <strong>${idUnico}</strong>`;
+        document.getElementById("mensajeGracias").innerHTML = `¡Gracias por confirmar, ${nombre}!<br>Tu código de invitación es: <strong>${idUnico}</strong>`;
+        document.getElementById("qrImage").src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+        document.getElementById("qrCode").style.display = "block";
 
-        // Mostrar QR
-        const qrCodeDiv = document.getElementById('qrCode');
-        const qrImage = document.getElementById('qrImage');
-        qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(urlWhatsApp)}`;
-        qrCodeDiv.style.display = 'block';
-
-        // Abrir WhatsApp en nueva pestaña
-        window.open(urlWhatsApp, '_blank');
-
+        window.open(url, '_blank');
       } catch (error) {
-        alert('Hubo un error al enviar los datos. Intentá nuevamente.');
+        alert("Hubo un error al enviar los datos. Intentá nuevamente.");
         console.error(error);
       }
     }
   </script>
+
 </body>
 </html>

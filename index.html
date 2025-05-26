@@ -3,114 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <title>Confirmación de Asistencia - Jacqueline</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #f8f8f8, #e6e6e6);
-      padding: 0;
+      background: linear-gradient(to bottom right, #f8f8f8, #d4af37);
+      padding: 2rem;
       margin: 0;
-      color: #333;
     }
-
-    .header {
-      background-image: url('https://images.unsplash.com/photo-1594824476967-48c8b9642732?auto=format&fit=crop&w=1350&q=80');
-      background-size: cover;
-      background-position: center;
-      text-align: center;
-      color: white;
-      padding: 3rem 1rem;
-      font-size: 2rem;
-      font-weight: bold;
-      text-shadow: 1px 1px 5px #000;
-    }
-
     form {
       background: white;
-      max-width: 500px;
-      margin: -2rem auto 2rem;
       padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      border: 3px solid gold;
-      position: relative;
-      z-index: 2;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
-
     h2 {
+      color: #b4975a;
       text-align: center;
-      color: goldenrod;
-      margin-bottom: 1.5rem;
     }
-
     label {
-      font-weight: bold;
-      margin-top: 1rem;
       display: block;
+      margin-top: 1rem;
+      font-weight: bold;
     }
-
     input[type="text"],
     select {
       width: 100%;
-      padding: 0.7rem;
+      padding: 0.5rem;
       margin-top: 0.3rem;
-      border-radius: 6px;
       border: 1px solid #ccc;
+      border-radius: 5px;
     }
-
-    .checkbox-group {
-      margin-top: 0.5rem;
-    }
-
     .checkbox-group label {
-      display: block;
       font-weight: normal;
-      margin: 0.3rem 0;
+      margin-top: 0.3rem;
+      display: block;
     }
-
     button {
-      background: goldenrod;
+      margin-top: 1.5rem;
+      background-color: #25D366;
       color: white;
       border: none;
-      padding: 1rem;
-      margin-top: 1.5rem;
+      padding: 0.8rem;
       width: 100%;
       font-size: 1rem;
-      border-radius: 8px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
     }
-
     button:hover {
-      background: #c4a300;
+      background-color: #128C7E;
     }
-
     #mensajeGracias {
-      display: none;
       text-align: center;
-      font-size: 1.2rem;
-      color: green;
       margin-top: 1rem;
+      color: #444;
       font-weight: bold;
     }
-
+    #qrCode {
+      display: none;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    #qrImage {
+      max-width: 200px;
+    }
     @media (max-width: 600px) {
-      .header {
-        font-size: 1.5rem;
-        padding: 2rem 1rem;
-      }
       form {
-        padding: 1.5rem;
-        margin: -1.5rem auto 2rem;
+        padding: 1rem;
       }
     }
   </style>
 </head>
 <body>
-
-  <div class="header">
-    Mis 15 Años - Jacqueline
-  </div>
 
   <form onsubmit="enviarFormulario(); return false;">
     <h2>Confirmación de Asistencia</h2>
@@ -134,53 +99,60 @@
       <label><input type="checkbox" name="alimentacion" value="Diabético"> Diabético</label>
     </div>
 
-    <button type="submit">Confirmar por WhatsApp</button>
-    <div id="mensajeGracias">¡Gracias por confirmar! 🎉</div>
+    <button type="submit">Enviar confirmación</button>
+
+    <div id="mensajeGracias"></div>
+    <div id="qrCode">
+      <p>Escaneá este código para enviar el mensaje desde otro dispositivo:</p>
+      <img id="qrImage" src="" alt="QR de WhatsApp">
+    </div>
   </form>
 
   <script>
-    function enviarFormulario() {
+    function generarID(nombre) {
+      const letras = nombre.replace(/\s/g, '').substring(0, 3).toUpperCase();
+      const aleatorio = Math.random().toString(36).substring(2, 7).toUpperCase();
+      return letras + aleatorio;
+    }
+
+    async function enviarFormulario() {
       const nombre = document.getElementById("nombre").value.trim();
       const asistencia = document.getElementById("asistencia").value;
       const restricciones = Array.from(document.querySelectorAll('input[name="alimentacion"]:checked'))
                                 .map(el => el.value)
                                 .join(", ") || "No especifica";
+      const idUnico = generarID(nombre);
 
-      if (!nombre || !asistencia) {
-        alert("Por favor completá todos los campos obligatorios.");
-        return;
-      }
+      const mensaje = `Hola, soy ${nombre}. Confirmo asistencia: ${asistencia}. Restricciones alimentarias: ${restricciones}. ID de invitación: ${idUnico}. Evento: Mis 15 Años - Jacqueline`;
+      const telefono = "541124572552";
+      const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
 
-      // 1. Guardar en Google Sheets
-      const urlGoogle = "https://script.google.com/macros/s/AKfycbzjvj9vxdP6uBK0uMYnCIRMtW65pk9D1GBG5iRo-iFsMlIgx5nUGLcO6k95kX0w2kmtxA/exec";
+      // Enviar a Google Sheets
       const formData = new FormData();
       formData.append("nombre", nombre);
       formData.append("asistencia", asistencia);
       formData.append("restricciones", restricciones);
+      formData.append("id", idUnico);
 
-      fetch(urlGoogle, { method: "POST", body: formData })
-        .then(response => response.text())
-        .then(result => {
-          console.log("Guardado en Sheets:", result);
-          document.getElementById("mensajeGracias").style.display = "block";
-        })
-        .catch(error => {
-          console.error("Error al guardar en Sheets:", error);
+      try {
+        await fetch("https://script.google.com/macros/s/AKfycbzjvj9vxdP6uBK0uMYnCIRMtW65pk9D1GBG5iRo-iFsMlIgx5nUGLcO6k95kX0w2kmtxA/exec", {
+          method: "POST",
+          body: formData
         });
 
-      // 2. Enviar por WhatsApp
-      const mensaje = `Hola, soy ${nombre}. Confirmo asistencia: ${asistencia}. Restricciones alimentarias: ${restricciones}. Evento: Mis 15 Años - Jacqueline`;
-      const telefono = "541124572552";
-      const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-      window.open(url, '_blank');
+        // Mostrar mensaje de agradecimiento
+        const mensajeGracias = document.getElementById("mensajeGracias");
+        mensajeGracias.innerHTML = `¡Gracias por confirmar, ${nombre}!<br>Tu código de invitación es: <strong>${idUnico}</strong>`;
 
-      // 3. Limpiar formulario después de unos segundos
-      setTimeout(() => {
-        document.querySelector("form").reset();
-        setTimeout(() => {
-          document.getElementById("mensajeGracias").style.display = "none";
-        }, 4000);
-      }, 1000);
+        // Generar y mostrar QR
+        document.getElementById("qrImage").src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+        document.getElementById("qrCode").style.display = "block";
+
+        // Abrir WhatsApp
+        window.open(url, '_blank');
+      } catch (error) {
+        alert("Hubo un error al enviar los datos. Por favor, intentá de nuevo.");
+      }
     }
   </script>
 

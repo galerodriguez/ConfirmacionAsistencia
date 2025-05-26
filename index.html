@@ -63,7 +63,7 @@
       formData.append("asistencia", asistencia);
       formData.append("restricciones", restricciones);
 
-      fetch("TU_URL_DE_SCRIPT_AQUI", {
+      fetch("https://script.google.com/macros/s/AKfycbyYcZrUOH_gs9tSvr7aZakrSKq9yPLjp1zIimHSeZ70865HvvtuMxYAfKsN3x-hn41Dtw/exec", {
         method: "POST",
         body: formData
       }).then(res => {

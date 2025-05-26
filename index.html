@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Confirmación de Asistencia - Jacqueline</title>
   <style>
     body {
@@ -81,7 +81,7 @@
     <h2>Confirmación de Asistencia</h2>
 
     <label for="nombre">Nombre completo:</label>
-    <input type="text" id="nombre" required>
+    <input type="text" id="nombre" required />
 
     <label for="asistencia">¿Confirmás tu asistencia?</label>
     <select id="asistencia" required>
@@ -92,11 +92,11 @@
 
     <label>Restricción alimentaria (puede marcar varias):</label>
     <div class="checkbox-group">
-      <label><input type="checkbox" name="alimentacion" value="Ninguna"> Ninguna</label>
-      <label><input type="checkbox" name="alimentacion" value="SIN TACC"> SIN TACC</label>
-      <label><input type="checkbox" name="alimentacion" value="Vegano"> Vegano</label>
-      <label><input type="checkbox" name="alimentacion" value="Hipertensión"> Hipertensión</label>
-      <label><input type="checkbox" name="alimentacion" value="Diabético"> Diabético</label>
+      <label><input type="checkbox" name="alimentacion" value="Ninguna" /> Ninguna</label>
+      <label><input type="checkbox" name="alimentacion" value="SIN TACC" /> SIN TACC</label>
+      <label><input type="checkbox" name="alimentacion" value="Vegano" /> Vegano</label>
+      <label><input type="checkbox" name="alimentacion" value="Hipertensión" /> Hipertensión</label>
+      <label><input type="checkbox" name="alimentacion" value="Diabético" /> Diabético</label>
     </div>
 
     <button type="submit">Enviar confirmación</button>
@@ -104,7 +104,7 @@
     <div id="mensajeGracias"></div>
     <div id="qrCode">
       <p>Escaneá este código para enviar el mensaje desde otro dispositivo:</p>
-      <img id="qrImage" src="" alt="QR de WhatsApp">
+      <img id="qrImage" src="" alt="QR de WhatsApp" />
     </div>
   </form>
 
@@ -127,7 +127,6 @@
       const telefono = "541124572552";
       const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
 
-      // Enviar a Google Sheets
       const data = {
         nombre: nombre,
         asistencia: asistencia,
@@ -144,15 +143,11 @@
           body: JSON.stringify(data)
         });
 
-        // Mostrar mensaje de agradecimiento
-        const mensajeGracias = document.getElementById("mensajeGracias");
-        mensajeGracias.innerHTML = `¡Gracias por confirmar, ${nombre}!<br>Tu código de invitación es: <strong>${idUnico}</strong>`;
+        document.getElementById("mensajeGracias").innerHTML = `¡Gracias por confirmar, ${nombre}!<br>Tu código de invitación es: <strong>${idUnico}</strong>`;
 
-        // Generar y mostrar QR
         document.getElementById("qrImage").src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
         document.getElementById("qrCode").style.display = "block";
 
-        // Abrir WhatsApp
         window.open(url, '_blank');
       } catch (error) {
         alert("Hubo un error al enviar los datos. Por favor, intentá de nuevo.");

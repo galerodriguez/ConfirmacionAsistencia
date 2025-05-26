@@ -102,7 +102,43 @@
   <div class="container">
     <h2>Mis 15 Años - Jacqueline</h2>
 
-    <form onsubmit="enviarWhatsApp(); return false;">
+    <script>
+  function enviarFormulario() {
+    const nombre = document.getElementById("nombre").value.trim();
+    const asistencia = document.getElementById("asistencia").value;
+    const restricciones = Array.from(document.querySelectorAll('input[name="alimentacion"]:checked'))
+                                .map(el => el.value)
+                                .join(", ") || "No especifica";
+
+    if (!nombre || !asistencia) {
+      alert("Por favor completá todos los campos obligatorios.");
+      return;
+    }
+
+    // 1. Enviar a Google Sheets
+    const urlGoogle = "https://script.google.com/macros/s/AKfycbzq9dNIn56CDkLiju63hBy8Yh9mQYGSxt4FyAr_vdX5NOKbXeeHXGwcQTvPwq52BcCSxg/exec"; // 🔧 tu URL real acá
+    const formData = new FormData();
+    formData.append("nombre", nombre);
+    formData.append("asistencia", asistencia);
+    formData.append("restricciones", restricciones);
+
+    fetch(urlGoogle, { method: "POST", body: formData })
+      .then(response => response.text())
+      .then(result => {
+        console.log("Google Sheet:", result);
+      })
+      .catch(error => {
+        console.error("Error al guardar en Sheet:", error);
+      });
+
+    // 2. Enviar por WhatsApp
+    const mensaje = `Hola, soy ${nombre}. Confirmo asistencia: ${asistencia}. Restricciones alimentarias: ${restricciones}. Evento: Mis 15 Años - Jacqueline`;
+    const telefono = "541124572552";
+    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+  }
+</script>
+
       <label for="nombre">Nombre completo:</label>
       <input type="text" id="nombre" placeholder="Ej: Valentina López" required>
 

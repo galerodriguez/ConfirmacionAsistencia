@@ -6,7 +6,9 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #f0f0f0, #c0c0c0);
+      background: linear-gradient(135deg, #f0f0f0, #c0c0c0);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
       padding: 2rem;
       margin: 0;
     }
@@ -135,7 +137,7 @@
       };
 
       try {
-        const respuesta = await fetch("https://script.google.com/macros/s/AKfycbyL6c5DwqKB81dlBKzkb0IzgUK04ifgn_KO6ILhnmDThWArB_GXixkBCJBIoTroj35Z7w/exec", {
+        await fetch("https://script.google.com/macros/s/AKfycbzrFpG_TmPnPU9eOlGlYsRrmYamogpbg8opvAJYUCaqHr72Glxe-Wnk5tS7wP-K6nuuQw/exec", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -143,20 +145,14 @@
           body: JSON.stringify(data)
         });
 
-        const resultado = await respuesta.json();
-
-        if (resultado.resultado !== "ok") {
-          throw new Error("Error en la respuesta del servidor");
-        }
-
         document.getElementById("mensajeGracias").innerHTML = `¡Gracias por confirmar, ${nombre}!<br>Tu código de invitación es: <strong>${idUnico}</strong>`;
+
         document.getElementById("qrImage").src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
         document.getElementById("qrCode").style.display = "block";
 
         window.open(url, '_blank');
       } catch (error) {
         alert("Hubo un error al enviar los datos. Intentá nuevamente.");
-        console.error(error);
       }
     }
   </script>

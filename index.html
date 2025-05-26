@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Confirmación de Asistencia - Mis 15</title>
   <style>
     body {
@@ -24,7 +25,7 @@
 
     h2 {
       text-align: center;
-      color: #d4af37; /* Dorado */
+      color: #d4af37;
       font-size: 2rem;
       margin-bottom: 1rem;
     }
@@ -44,6 +45,7 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 1rem;
+      box-sizing: border-box;
     }
 
     .checkbox-group label {
@@ -76,6 +78,23 @@
       margin-top: 2rem;
       color: #999;
     }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: 12px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      button {
+        font-size: 1rem;
+        padding: 0.8rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -84,7 +103,6 @@
     <h2>Mis 15 Años - Jacqueline</h2>
 
     <form onsubmit="enviarWhatsApp(); return false;">
-
       <label for="nombre">Nombre completo:</label>
       <input type="text" id="nombre" placeholder="Ej: Valentina López" required>
 
@@ -108,7 +126,7 @@
     </form>
 
     <div class="footer">
-      ¡Gracias por ser parte de este momento especial! 💫
+      ¡Gracias por ser parte de este momento tan especial! 💫
     </div>
   </div>
 
@@ -127,7 +145,7 @@
       }
 
       const mensaje = `Hola, soy ${nombre}. Confirmo asistencia: ${asistencia}. Restricciones alimentarias: ${restricciones}. Evento: Mis 15 Años - Jacqueline`;
-      const telefono = "541124572552"; // ✅ Número real de WhatsApp
+      const telefono = "541124572552";
 
       const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
